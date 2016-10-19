@@ -71,7 +71,7 @@ class Level_01(Level):
  
         self.background = pygame.image.load("nivel1.jpg").convert()
         self.background.set_colorkey(constants.WHITE)
-        self.level_limit = -2500
+        self.level_limit = -3000
  
         # Array with type of platform, and x, y location of the platform.
         level =   [
@@ -87,37 +87,77 @@ class Level_01(Level):
                   [platforms.PIEDRA_FLOTANTE_MEDIO, 570, 400],
                   [platforms.PIEDRA_FLOTANTE_DERECHA, 640, 400], 
                   #2
-                  [platforms.PIEDRA_FLOTANTE_IZQUIERDA, 500, 160],
-                  [platforms.PIEDRA_FLOTANTE_MEDIO, 570, 160],
-                  [platforms.PIEDRA_FLOTANTE_DERECHA, 640, 160], 
+                  [platforms.STONE_PLATFORM_LEFT, 500, 150],
+                  [platforms.STONE_PLATFORM_MIDDLE, 570, 150],
+                  [platforms.STONE_PLATFORM_RIGHT, 640, 150], 
                   
                   [platforms.ESTRELLA_NINJA, 640, 5],                  
                   #3
                   [platforms.PIEDRA_FLOTANTE_IZQUIERDA, 200, 280],
                   [platforms.PIEDRA_FLOTANTE_MEDIO, 270, 280],
                   [platforms.PIEDRA_FLOTANTE_DERECHA, 340, 280], 
-                  
+                  #4
                   [platforms.PIEDRA_FLOTANTE_IZQUIERDA, 800, 400],
                   [platforms.PIEDRA_FLOTANTE_MEDIO, 870, 400],
                   [platforms.PIEDRA_FLOTANTE_DERECHA, 940, 400],
+                  #5
+                 # [platforms.PIEDRA_FLOTANTE_IZQUIERDA, 1100, 500],
+                  #[platforms.PIEDRA_FLOTANTE_MEDIO, 1170, 500],
+                  #[platforms.PIEDRA_FLOTANTE_DERECHA, 1240, 500],
                   
-                  [platforms.PIEDRA_FLOTANTE_IZQUIERDA, 1100, 500],
-                  [platforms.PIEDRA_FLOTANTE_MEDIO, 1170, 500],
-                  [platforms.PIEDRA_FLOTANTE_DERECHA, 1240, 500],
-                  
-                  [platforms.INTERROGACION, 1240, 330],
-                  
+                  #6
                   [platforms.STONE_PLATFORM_LEFT, 1120, 280],
                   [platforms.STONE_PLATFORM_MIDDLE, 1190, 280],
                   [platforms.STONE_PLATFORM_RIGHT, 1260, 280],
                   
-                  [platforms.PIEDRA_IZQUIERDA, 1880, 530],
-                  [platforms.PIEDRA_CENTRO, 1950, 530],
-                  [platforms.PIEDRA_CENTRO, 2020, 530],
-                  [platforms.PIEDRA_CENTRO, 2090, 530],
+                  [platforms.PIEDRA_IZQUIERDA, 2090, 530],
                   [platforms.PIEDRA_CENTRO, 2160, 530],
                   [platforms.PIEDRA_CENTRO, 2230, 530],
-                  [platforms.PIEDRA_DERECHA, 2300, 530],                   
+                  [platforms.PIEDRA_CENTRO, 2300, 530],
+                  [platforms.PIEDRA_CENTRO, 2370, 530],
+                  [platforms.PIEDRA_CENTRO, 2440, 530],
+                  [platforms.PIEDRA_DERECHA, 2510, 530],  
+                  
+                  [platforms.INTERROGACION, 2230, 330],                 
+                  
+                  #7
+                  [platforms.PIEDRA_FLOTANTE_IZQUIERDA, 2600, 400],
+                  [platforms.PIEDRA_FLOTANTE_MEDIO, 2670, 400],
+                  [platforms.PIEDRA_FLOTANTE_DERECHA, 2740, 400],   
+                  #8
+                  [platforms.PIEDRA_FLOTANTE_IZQUIERDA, 2900, 300],
+                  [platforms.PIEDRA_FLOTANTE_MEDIO, 2970, 300],
+                  [platforms.PIEDRA_FLOTANTE_DERECHA, 3040, 300],  
+                  
+                  [platforms.PIEDRA_IZQUIERDA, 3200, 160],
+                  [platforms.PIEDRA_CENTRO, 3270, 160],
+                  [platforms.PIEDRA_CENTRO, 3340, 160],
+                  [platforms.PIEDRA_CENTRO, 3410, 160],
+                  [platforms.PIEDRA_CENTRO, 3480, 160],
+                  [platforms.PIEDRA_CENTRO, 3550, 160],
+                  [platforms.PIEDRA_DERECHA, 3620, 160],      
+                  
+                  [platforms.PIEDRA_IZQUIERDA, 3200, 360],
+                  [platforms.PIEDRA_CENTRO, 3270, 360],
+                  [platforms.PIEDRA_CENTRO, 3340, 360],
+                  [platforms.PIEDRA_CENTRO, 3410, 360],
+                  [platforms.PIEDRA_CENTRO, 3480, 360],
+                  [platforms.PIEDRA_CENTRO, 3550, 360],
+                  [platforms.PIEDRA_DERECHA, 3620, 360],   
+                  
+                  [platforms.PIEDRA_IZQUIERDA, 3200, 530],
+                  [platforms.PIEDRA_CENTRO, 3270, 530],
+                  [platforms.PIEDRA_CENTRO, 3340, 530],
+                  [platforms.PIEDRA_CENTRO, 3410, 530],
+                  [platforms.PIEDRA_CENTRO, 3480, 530],
+                  [platforms.PIEDRA_CENTRO, 3550, 530],
+                  [platforms.PIEDRA_CENTRO, 3620, 530],
+                  [platforms.PIEDRA_CENTRO, 3690, 530],
+                  [platforms.PIEDRA_CENTRO, 3760, 530],
+                  [platforms.PIEDRA_CENTRO, 3830, 530], 
+                  [platforms.PIEDRA_DERECHA, 3900, 530],
+                  
+                  [platforms.EXIT, 3830, 460],
                   ]
  
  
@@ -139,7 +179,17 @@ class Level_01(Level):
         block.player = self.player
         block.level = self
         self.platform_list.add(block)
- 
+
+        # Add a custom moving platform
+        block = platforms.MovingPlatform(platforms.PIEDRITA_FOTANTE_CENTRO)
+        block.rect.x = 1700
+        block.rect.y = 280
+        block.boundary_left = 1700
+        block.boundary_right = 1900
+        block.change_x = 1
+        block.player = self.player
+        block.level = self
+        self.platform_list.add(block) 
  
 # Create platforms for the level
 class Level_02(Level):

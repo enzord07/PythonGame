@@ -27,6 +27,7 @@ PIEDRA_FLOTANTE_DERECHA=(144,288,70,70)
 PIEDRITA_FOTANTE_CENTRO=(144,144,70,70)
 INTERROGACION=(0,0,70,70)
 ESTRELLA_NINJA=(0,576,70,70)
+EXIT=(288,360,70,70)
 class Platform(pygame.sprite.Sprite):
     """ Platform the user can jump on """
  
