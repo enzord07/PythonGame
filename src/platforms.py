@@ -18,7 +18,15 @@ GRASS_MIDDLE          = (504, 576, 70, 70)
 STONE_PLATFORM_LEFT   = (432, 720, 70, 40)
 STONE_PLATFORM_MIDDLE = (648, 648, 70, 40)
 STONE_PLATFORM_RIGHT  = (792, 648, 70, 40)
- 
+PIEDRA_IZQUIERDA      = (792,216,70,70)
+PIEDRA_CENTRO      = (792,144,70,70)
+PIEDRA_DERECHA      = (792,72,70,70)
+PIEDRA_FLOTANTE_IZQUIERDA=(144,432,70,70)
+PIEDRA_FLOTANTE_MEDIO=(72,432,70,70)
+PIEDRA_FLOTANTE_DERECHA=(144,288,70,70)
+PIEDRITA_FOTANTE_CENTRO=(144,144,70,70)
+INTERROGACION=(0,0,70,70)
+ESTRELLA_NINJA=(0,576,70,70)
 class Platform(pygame.sprite.Sprite):
     """ Platform the user can jump on """
  
@@ -37,6 +45,23 @@ class Platform(pygame.sprite.Sprite):
  
         self.rect = self.image.get_rect()
  
+class Platform(pygame.sprite.Sprite):
+    """ Platform the user can jump on """
+ 
+    def __init__(self, sprite_sheet_data):
+        """ Platform constructor. Assumes constructed with user passing in
+            an array of 5 numbers like what's defined at the top of this
+            code. """
+        super(Platform, self).__init__()
+ 
+        sprite_sheet = SpriteSheet("tiles_spritesheet.png")
+        # Grab the image for this platform
+        self.image = sprite_sheet.get_image(sprite_sheet_data[0],
+                                            sprite_sheet_data[1],
+                                            sprite_sheet_data[2],
+                                            sprite_sheet_data[3])
+ 
+        self.rect = self.image.get_rect()
  
 class MovingPlatform(Platform):
     """ This is a fancier platform that can actually move. """

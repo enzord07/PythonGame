@@ -69,23 +69,55 @@ class Level_01(Level):
         # Call the parent constructor
         Level.__init__(self, player)
  
-        self.background = pygame.image.load("background_01.png").convert()
+        self.background = pygame.image.load("nivel1.jpg").convert()
         self.background.set_colorkey(constants.WHITE)
         self.level_limit = -2500
  
         # Array with type of platform, and x, y location of the platform.
-        level = [ [platforms.GRASS_LEFT, 500, 500],
-                  [platforms.GRASS_MIDDLE, 570, 500],
-                  [platforms.GRASS_RIGHT, 640, 500],
-                  [platforms.GRASS_LEFT, 800, 400],
-                  [platforms.GRASS_MIDDLE, 870, 400],
-                  [platforms.GRASS_RIGHT, 940, 400],
-                  [platforms.GRASS_LEFT, 1000, 500],
-                  [platforms.GRASS_MIDDLE, 1070, 500],
-                  [platforms.GRASS_RIGHT, 1140, 500],
+        level =   [
+                  [platforms.PIEDRA_IZQUIERDA, 0, 530],
+                  [platforms.PIEDRA_CENTRO, 70, 530],
+                  [platforms.PIEDRA_CENTRO, 140, 530],
+                  [platforms.PIEDRA_CENTRO, 210, 530],
+                  [platforms.PIEDRA_CENTRO, 280, 530],
+                  [platforms.PIEDRA_CENTRO, 350, 530],
+                  [platforms.PIEDRA_DERECHA, 420, 530],
+                  #1
+                  [platforms.PIEDRA_FLOTANTE_IZQUIERDA, 500, 400],
+                  [platforms.PIEDRA_FLOTANTE_MEDIO, 570, 400],
+                  [platforms.PIEDRA_FLOTANTE_DERECHA, 640, 400], 
+                  #2
+                  [platforms.PIEDRA_FLOTANTE_IZQUIERDA, 500, 160],
+                  [platforms.PIEDRA_FLOTANTE_MEDIO, 570, 160],
+                  [platforms.PIEDRA_FLOTANTE_DERECHA, 640, 160], 
+                  
+                  [platforms.ESTRELLA_NINJA, 640, 5],                  
+                  #3
+                  [platforms.PIEDRA_FLOTANTE_IZQUIERDA, 200, 280],
+                  [platforms.PIEDRA_FLOTANTE_MEDIO, 270, 280],
+                  [platforms.PIEDRA_FLOTANTE_DERECHA, 340, 280], 
+                  
+                  [platforms.PIEDRA_FLOTANTE_IZQUIERDA, 800, 400],
+                  [platforms.PIEDRA_FLOTANTE_MEDIO, 870, 400],
+                  [platforms.PIEDRA_FLOTANTE_DERECHA, 940, 400],
+                  
+                  [platforms.PIEDRA_FLOTANTE_IZQUIERDA, 1100, 500],
+                  [platforms.PIEDRA_FLOTANTE_MEDIO, 1170, 500],
+                  [platforms.PIEDRA_FLOTANTE_DERECHA, 1240, 500],
+                  
+                  [platforms.INTERROGACION, 1240, 330],
+                  
                   [platforms.STONE_PLATFORM_LEFT, 1120, 280],
                   [platforms.STONE_PLATFORM_MIDDLE, 1190, 280],
                   [platforms.STONE_PLATFORM_RIGHT, 1260, 280],
+                  
+                  [platforms.PIEDRA_IZQUIERDA, 1880, 530],
+                  [platforms.PIEDRA_CENTRO, 1950, 530],
+                  [platforms.PIEDRA_CENTRO, 2020, 530],
+                  [platforms.PIEDRA_CENTRO, 2090, 530],
+                  [platforms.PIEDRA_CENTRO, 2160, 530],
+                  [platforms.PIEDRA_CENTRO, 2230, 530],
+                  [platforms.PIEDRA_DERECHA, 2300, 530],                   
                   ]
  
  
@@ -98,7 +130,7 @@ class Level_01(Level):
             self.platform_list.add(block)
  
         # Add a custom moving platform
-        block = platforms.MovingPlatform(platforms.STONE_PLATFORM_MIDDLE)
+        block = platforms.MovingPlatform(platforms.PIEDRITA_FOTANTE_CENTRO)
         block.rect.x = 1350
         block.rect.y = 280
         block.boundary_left = 1350
@@ -127,12 +159,12 @@ class Level_02(Level):
         level = [ [platforms.STONE_PLATFORM_LEFT, 500, 550],
                   [platforms.STONE_PLATFORM_MIDDLE, 570, 550],
                   [platforms.STONE_PLATFORM_RIGHT, 640, 550],
-                  [platforms.GRASS_LEFT, 800, 400],
-                  [platforms.GRASS_MIDDLE, 870, 400],
-                  [platforms.GRASS_RIGHT, 940, 400],
-                  [platforms.GRASS_LEFT, 1000, 500],
-                  [platforms.GRASS_MIDDLE, 1070, 500],
-                  [platforms.GRASS_RIGHT, 1140, 500],
+                  [platforms.PIEDRA_FLOTANTE_IZQUIERDA, 800, 400],
+                  [platforms.PIEDRA_FLOTANTE_MEDIO, 870, 400],
+                  [platforms.PIEDRA_FLOTANTE_DERECHA, 940, 400],
+                  [platforms.PIEDRA_FLOTANTE_IZQUIERDA, 1000, 500],
+                  [platforms.PIEDRA_FLOTANTE_MEDIO, 1070, 500],
+                  [platforms.PIEDRA_FLOTANTE_DERECHA, 1140, 500],
                   [platforms.STONE_PLATFORM_LEFT, 1120, 280],
                   [platforms.STONE_PLATFORM_MIDDLE, 1190, 280],
                   [platforms.STONE_PLATFORM_RIGHT, 1260, 280],
