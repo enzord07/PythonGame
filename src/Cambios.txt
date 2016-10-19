@@ -1,0 +1,19 @@
+15/10
+-Agregado control en NinjaHero.py para agacharse(Flecha de abajo, soltar para levantarse)
+	-Ahora puede pasar debajo de plataformas(agachado mide 36 pixeles de alto)
+-Agregado funcion para modificar tamaño del sprite dependiendo de la animación del personaje
+-Agregado animación de agacharse en player.py
+-Corregido reloj de las animaciones(No mostraba primer frame de animación)
+-Breve modificacion de estado del personaje.. cayendo(FALLING)
+-Agregada un frame a la animacion del salto en el lugar(STOPPED JUMPING-frame 4)
+-Agregado funcion para resetear el frame y reloj para la animacion(Simplifica el codigo)
+-Corregido caida fuerte del personaje(Si el personaje caia con un salto largo salía con la animacion de caminando pero con la velocidad de corriendo)
+-Agregado control en NinjaHero para atacar con la espada(Tecla 'z')
+-Agregado animacion de ataque.
+-Agregado metodo de daño (Reduce 1 punto de vida)(autodaño con tecla 'h')
+-Agregado animacion de daño.
+-Agregado metodo de morir(Muere cuando tiene 0 puntos de vida).
+-Agregado animación de morir
+-Agregado ataque de arrojar shuriken(Tecla 'x')
+-Agregado clase Shuriken(Sprite con sus animaciones)
+-Agregado atributo del personaje que contiene la lista de los shurikens arrojados.

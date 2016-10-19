@@ -93,12 +93,22 @@ def main():
                     contr=0
                 if event.key == pygame.K_UP:
                     player.jump()
+                if event.key == pygame.K_DOWN:
+                    player.crouch()
+                if event.key == pygame.K_z:
+                    player.attack()
+                if event.key == pygame.K_x:
+                    player.attackshuriken()
+                if event.key == pygame.K_h:
+                    player.hurt()
  
             if event.type == pygame.KEYUP:
                 if event.key == pygame.K_LEFT and player.change_x < 0:
                     player.stop()
                 if event.key == pygame.K_RIGHT and player.change_x > 0:
                     player.stop()
+                if event.key == pygame.K_DOWN:
+                    player.go_up()
  
         # Update the player.
         active_sprite_list.update()
@@ -130,6 +140,7 @@ def main():
         # ALL CODE TO DRAW SHOULD GO BELOW THIS COMMENT
         current_level.draw(screen)
         active_sprite_list.draw(screen)
+        player.shuriken_list.draw(screen)
  
         # ALL CODE TO DRAW SHOULD GO ABOVE THIS COMMENT
  
