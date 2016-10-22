@@ -17,3 +17,35 @@
 -Agregado ataque de arrojar shuriken(Tecla 'x')
 -Agregado clase Shuriken(Sprite con sus animaciones)
 -Agregado atributo del personaje que contiene la lista de los shurikens arrojados.
+
+20/10
+-levels.py: 
+	-Agregado el shuriken al metodo shift_world.
+	-Agregado impacto en contra de enemigos en metodo update()
+	-Modificado el grupo de sprites por el grupo de sprites personalizado.(Para los enemigos) 
+	-Agregado algoritmo de agregación de enemigos(Ahora es igual que agregar plataformas, incluso más sencillo)(Se agregaron 3 de ejemplo)
+	-Agregado control de impactos entre enemigos y player.
+	-Agregado Varios enemigos
+
+
+-shuriken.py: 
+	-Corregida animacion
+	-Agregado tiempo de vida(2.5 segundos)
+	-Reducida la velocidad.
+
+-player.py:
+	-Mata al shuriken cuando su tiempo de vida es Cero.
+	-Crea el sprite de ataque al atacar con espada.
+	-Mata al sprite de ataque cuando su tiempo de vida es Cero.
+	-Corregido tamaño de sprite cuando Muere
+	-Agregado Sprite invisible para activar a los enemigos.
+	-Agregado atributo de muerto.
+	-Arreglado caida al vacio(Muere al caer)
+	-Arreglado reacción del personaje al caer.
+
+-attack.py(NUEVO):
+	-Sprite de ataque con un tiempo de vida de 0.3 segundos.
+
+-enemy.py(NUEVO):
+	-Tiene 1 punto de vida.
+	-Agregado inteligencia para tirar Shurikens.

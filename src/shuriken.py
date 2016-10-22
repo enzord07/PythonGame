@@ -9,7 +9,7 @@ class Shuriken(pygame.sprite.Sprite):
         
         super(Shuriken, self).__init__()
         
-        self.change_x=5
+        self.change_x=4
         self.direction=dir
         
         
@@ -39,7 +39,11 @@ class Shuriken(pygame.sprite.Sprite):
         self.direction = dir    
         
         # Reloj para la hoja de sprites
-        self.reloj = 0        
+        self.reloj = 0
+        
+        # Tiempo de vida
+        self.life_time = 60*2.5
+        
         
     def update(self):
         if self.direction=="R":
@@ -47,9 +51,11 @@ class Shuriken(pygame.sprite.Sprite):
         else:
             self.rect.x += self.change_x * (-1)
         self.select_image()
+        self.reloj += 1
+        self.life_time -= 1
         
     def select_image(self):
-        if (self.reloj % 3)==0:
+        if (self.reloj % 2)==0:
             self.frame +=1
             if self.frame>len(self.shuriken_frames)-1:
                 self.frame=0
