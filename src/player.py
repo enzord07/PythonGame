@@ -83,6 +83,7 @@ class Player(pygame.sprite.Sprite):
         
         # Cargar hoja de sprites
         sprite_sheet = SpriteSheet(self.image_file)
+        self.spritesheet = sprite_sheet
         
         # Esta muerto?
         self.death=False
@@ -656,9 +657,9 @@ class Player(pygame.sprite.Sprite):
         if (self.action == "S" or self.action == "W" or self.action== "R") and self.shurikens != 0:
             self.shurikens -= 1
             if self.direction=="R":
-                self.shuriken_list.add(Shuriken(self.rect.right,self.rect.y + 8, self.direction))
+                self.shuriken_list.add(Shuriken(self.rect.right,self.rect.y + 8, self.direction,self.spritesheet))
             else:
-                self.shuriken_list.add(Shuriken(self.rect.left,self.rect.y + 8, self.direction))
+                self.shuriken_list.add(Shuriken(self.rect.left,self.rect.y + 8, self.direction, self.spritesheet))
             self.action = "a"
             self.change_x = 0
             self.reset_anim()        

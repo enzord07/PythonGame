@@ -5,7 +5,7 @@ from spritesheet_functions import SpriteSheet
 
 class Shuriken(pygame.sprite.Sprite):
     
-    def __init__(self,posx,posy,dir):
+    def __init__(self,posx,posy,dir, img):
         
         super(Shuriken, self).__init__()
         
@@ -13,7 +13,7 @@ class Shuriken(pygame.sprite.Sprite):
         self.direction=dir
         
         
-        sprite_sheet = SpriteSheet("ninja.png")
+        sprite_sheet = img
         # Lista de las animaciones del Shuriken
         self.shuriken_frames = []
         
