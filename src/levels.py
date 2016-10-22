@@ -2,6 +2,8 @@ import pygame
  
 import constants
 import platforms
+from enemy import Enemy
+from Edited_Sprite_Group import Edited_Sprite_Group
  
 class Level(object):
     """ This is a generic super-class used to define a level.
@@ -24,15 +26,43 @@ class Level(object):
         self.world_shift = 0
         self.level_limit = -1000
         self.platform_list = pygame.sprite.Group()
-        self.enemy_list = pygame.sprite.Group()
+        self.enemy_list = Edited_Sprite_Group()
         self.player = player
  
     # Update everythign on this level
     def update(self):
-        """ Update everything in this level."""
+        """ Actualizar todo de este nivel"""
         self.platform_list.update()
         self.enemy_list.update()
- 
+        for enemy in self.enemy_list:
+            enemy.ai(self.player)
+            if enemy.death == True and enemy.reloj_ai==60*4:
+                self.enemy_list.remove(enemy)
+            # El enemigo fue golpeado por la espada?
+            contacto = pygame.sprite.spritecollide(enemy, self.player.attack_list, False)
+            for c in contacto:
+                enemy.hurt()
+            
+            # El enemigo fue golpeado por un shuriken?
+            contacto = pygame.sprite.spritecollide(enemy, self.player.shuriken_list, True)
+            for c in contacto:
+                enemy.hurt()
+                
+            # El enemigo esta en contacto con el activador?
+            contacto = pygame.sprite.spritecollide(enemy, self.player.enemy_activator, False)
+            cont = False
+            for c in contacto:
+                cont = True
+                enemy.active(True)
+            if cont == False:
+                enemy.active(False)
+            
+            
+            # El player impacto con algun shuriken del enemigo?
+            contacto = pygame.sprite.spritecollide(self.player, enemy.shuriken_list, True)
+            for c in contacto:
+                self.player.hurt()
+    
     def draw(self, screen):
         """ Draw everything on this level. """
  
@@ -45,6 +75,8 @@ class Level(object):
         # Draw all the sprite lists that we have
         self.platform_list.draw(screen)
         self.enemy_list.draw(screen)
+        for e in self.enemy_list:
+            e.shuriken_list.draw(screen)
  
     def shift_world(self, shift_x):
         """ When the user moves left/right and we need to scroll everything: """
@@ -58,6 +90,12 @@ class Level(object):
  
         for enemy in self.enemy_list:
             enemy.rect.x += shift_x
+            for s in enemy.shuriken_list:
+                s.rect.x += shift_x
+        
+        for shuriken in self.player.shuriken_list:
+            shuriken.rect.x += shift_x
+        
  
 # Create platforms for the level
 class Level_01(Level):
@@ -71,7 +109,7 @@ class Level_01(Level):
  
         self.background = pygame.image.load("nivel1.jpg").convert()
         self.background.set_colorkey(constants.WHITE)
-        self.level_limit = -3000
+        self.level_limit = -4000
  
         # Array with type of platform, and x, y location of the platform.
         level =   [
@@ -101,9 +139,9 @@ class Level_01(Level):
                   [platforms.PIEDRA_FLOTANTE_MEDIO, 870, 400],
                   [platforms.PIEDRA_FLOTANTE_DERECHA, 940, 400],
                   #5
-                  [platforms.PIEDRA_FLOTANTE_IZQUIERDA, 1100, 500],
-                  [platforms.PIEDRA_FLOTANTE_MEDIO, 1170, 500],
-                  [platforms.PIEDRA_FLOTANTE_DERECHA, 1240, 500],
+                 # [platforms.PIEDRA_FLOTANTE_IZQUIERDA, 1100, 500],
+                  #[platforms.PIEDRA_FLOTANTE_MEDIO, 1170, 500],
+                  #[platforms.PIEDRA_FLOTANTE_DERECHA, 1240, 500],
                   
                   #6
                   [platforms.STONE_PLATFORM_LEFT, 1120, 280],
@@ -123,7 +161,7 @@ class Level_01(Level):
                   #7
                   [platforms.PIEDRA_FLOTANTE_IZQUIERDA, 2600, 400],
                   [platforms.PIEDRA_FLOTANTE_MEDIO, 2670, 400],
-                  [platforms.PIEDRA_FLOTANTE_DERECHA, 2740, 400],   
+                  [platforms.PIEDRA_FLOTANTE_DERECHA, 2740, 400],
                   #8
                   [platforms.PIEDRA_FLOTANTE_IZQUIERDA, 2900, 300],
                   [platforms.PIEDRA_FLOTANTE_MEDIO, 2970, 300],
@@ -159,7 +197,26 @@ class Level_01(Level):
                   
                   [platforms.EXIT, 3830, 460],
                   ]
- 
+        # Agregar enemigo [x,y]
+        # Eje X pertenece a la mitad del personaje
+        # Eje Y pertenece a la planta de los pies
+        enemies = [[690,400],
+                   [690,150],
+                   [220,280],
+                   [990,400],
+                   [1320,280],
+                   [2100,530],
+                   [2265,330],
+                   [2560,530],
+                   [2790,400],
+                   [3090,300],
+                   [3210,160],
+                   [3680,160],
+                   [3210,360],
+                   [3680,360],
+                   [3210,590],
+                   [3680,590]                   
+                   ]
  
         # Go through the array above and add platforms
         for platform in level:
@@ -190,6 +247,10 @@ class Level_01(Level):
         block.player = self.player
         block.level = self
         self.platform_list.add(block) 
+        
+        
+        for enemy in enemies:
+            self.enemy_list.add(Enemy(self,enemy[0],enemy[1]))
  
 # Create platforms for the level
 class Level_02(Level):

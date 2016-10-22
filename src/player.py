@@ -9,23 +9,24 @@ import constants
 from platforms import MovingPlatform
 from spritesheet_functions import SpriteSheet
 from shuriken import Shuriken
+from attack import Attack
+import enemy
+from enemy_activator import Enemy_Activator
  
 class Player(pygame.sprite.Sprite):
-    """ This class represents the bar at the bottom that the player
-    controls. """
- 
  
     # -- Methods
     def __init__(self):
-        """ Constructor function """
  
-        # Call the parent's constructor
         super(Player, self).__init__()
  
         # -- Atributos
         
         # Salud del personaje
-        self.health = 3
+        self.health = 5
+        
+        # Cantidad de Shurikens
+        self.shurikens = 10
         
         # Set speed vector of player
         self.change_x = 0
@@ -72,7 +73,19 @@ class Player(pygame.sprite.Sprite):
         # Lista de shurikens arrojados
         self.shuriken_list = pygame.sprite.Group()
         
-        sprite_sheet = SpriteSheet("ninja.png")
+        # Sprite de ataque
+        self.attack_list = pygame.sprite.Group()
+        
+        if isinstance(self, enemy.Enemy):
+            self.image_file = "enemy.png"
+        else:
+            self.image_file = "ninja.png"
+        
+        # Cargar hoja de sprites
+        sprite_sheet = SpriteSheet(self.image_file)
+        
+        # Esta muerto?
+        self.death=False
         
         # Cargar la cara derecha de la accion WALKING
         image = sprite_sheet.get_image(1, 76, 37, 58)
@@ -429,10 +442,14 @@ class Player(pygame.sprite.Sprite):
         self.die_frames_l.append(image)        
         
         # Rectangulo del sprite
-        self.image = pygame.Surface([29,58])
+        self.image = pygame.Surface([25,58])
              
         self.rect = self.image.get_rect()
         self.image.fill(constants.BLUE)
+        
+        # Sprite usado para activar a los enemigos
+        self.enemy_activator = pygame.sprite.Group()
+        self.enemy_activator.add(Enemy_Activator())
         
         # Seleccionar con que imagen va a comenzar
         self.draw_image = self.walking_frames_r[0]
@@ -445,6 +462,9 @@ class Player(pygame.sprite.Sprite):
         """ Move the player. """
         
         self.shuriken_update()
+        self.attack_update()
+        for e in self.enemy_activator:
+            e.rect.midbottom = self.rect.midbottom
 
         
         # Gravity
@@ -456,7 +476,7 @@ class Player(pygame.sprite.Sprite):
         # Ajustar el tamanio del sprite de acuerdo a la imagen
         self.sprite_config()
         
-        #Centar la imagen en el sprite
+        #Centrar la imagen en el sprite
         self.draw_rect= self.draw_image.get_rect()
         self.draw_rect.midbottom = self.rect.midbottom
         
@@ -497,7 +517,7 @@ class Player(pygame.sprite.Sprite):
             # Resetar la posicion basado en la parte superior/inferior del objeto.
             if self.change_y > 0:
                 self.rect.bottom = block.rect.top
-                if self.change_y > 8:
+                if self.change_y > 9:
                     if self.health==0:
                         self.action = "D"
                         self.reset_anim()
@@ -533,9 +553,10 @@ class Player(pygame.sprite.Sprite):
             self.change_y += .4
  
         # See if we are on the ground.
-        if self.rect.y >= constants.SCREEN_HEIGHT - self.rect.height and self.change_y >= 0:
+        if self.rect.y >= constants.SCREEN_HEIGHT and self.change_y >= 0:
             self.change_y = 0
-            self.rect.y = constants.SCREEN_HEIGHT - self.rect.height
+            self.rect.y = constants.SCREEN_HEIGHT + 50
+            self.action= "D"
  
     def jump(self):
         """ Called when user hits 'jump' button. """
@@ -598,7 +619,8 @@ class Player(pygame.sprite.Sprite):
             self.go_right()
             
     def crouch(self):
-        if self.action == "S" or self.action == "A":
+        if self.action == "S" or self.action == "A" or self.action == "W" or self.action == "R" or self.action == "F":
+            self.change_x=0
             self.action = "C"
             self.reset_anim()
     
@@ -622,12 +644,17 @@ class Player(pygame.sprite.Sprite):
     
     def attack(self):
         if self.action == "S" or self.action == "W" or self.action== "R":
+            if self.direction=="R":
+                self.attack_list.add(Attack(self.rect.right,self.rect.y))
+            else:
+                self.attack_list.add(Attack(self.rect.left - 20,self.rect.y))
             self.action = "A"
             self.change_x = 0
             self.reset_anim()
         
     def attackshuriken(self):
-        if self.action == "S" or self.action == "W" or self.action== "R":
+        if (self.action == "S" or self.action == "W" or self.action== "R") and self.shurikens != 0:
+            self.shurikens -= 1
             if self.direction=="R":
                 self.shuriken_list.add(Shuriken(self.rect.right,self.rect.y + 8, self.direction))
             else:
@@ -666,10 +693,14 @@ class Player(pygame.sprite.Sprite):
         self.frame = 0
         
     def sprite_config(self):
-        if self.action == "C" or self.action == "w":
+        if self.action == "C" or self.action == "w" or self.action == "F":
             dif = self.rect.height - 36
             self.rect.height = 36
             self.rect.y += dif
+        elif self.action == "D":
+            dif = self.rect.height - 6
+            self.rect.height = 6
+            self.rect.y += dif            
         else:
             dif = self.rect.height - 58
             self.rect.height = 58
@@ -789,6 +820,7 @@ class Player(pygame.sprite.Sprite):
                     else:
                         self.draw_image = self.hurt_frames_l[self.frame]
         elif self.action == "D":
+            self.death = True
             if (self.reloj % 7)==0:
                 self.frame = self.reloj // 7
                 if self.frame>len(self.die_frames_r)-1:
@@ -814,9 +846,19 @@ class Player(pygame.sprite.Sprite):
     
     def shuriken_update(self):
         for s in self.shuriken_list:
-            # Chequear si impacta con alguna plataforma
-            block_hit_list = pygame.sprite.spritecollide(s, self.level.platform_list, False)
-            for block in block_hit_list:
+            # Si se acaba el tiempo de vida del shuriken, eliminarlo.
+            if s.life_time==0:
                 self.shuriken_list.remove(s)
+            else:
+                # Chequear si impacta con alguna plataforma
+                block_hit_list = pygame.sprite.spritecollide(s, self.level.platform_list, False)
+                for block in block_hit_list:
+                    self.shuriken_list.remove(s)
         self.shuriken_list.update()
-            
+    
+    def attack_update(self):
+        for a in self.attack_list:
+            if a.life_time==0:
+                self.attack_list.remove(a)
+        self.attack_list.update()
+    

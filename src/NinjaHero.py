@@ -1,30 +1,5 @@
-"""
-Sample Python/Pygame Programs
-Simpson College Computer Science
-http://programarcadegames.com/
-http://simpson.edu/computer-science/
- 
-Main module for platform scroller example.
- 
-From:
-http://programarcadegames.com/python_examples/sprite_sheets/
- 
-Explanation video: http://youtu.be/czBDKWJqOao
- 
-Part of a series:
-http://programarcadegames.com/python_examples/f.php?file=move_with_walls_example.py
-http://programarcadegames.com/python_examples/f.php?file=maze_runner.py
-http://programarcadegames.com/python_examples/f.php?file=platform_jumper.py
-http://programarcadegames.com/python_examples/f.php?file=platform_scroller.py
-http://programarcadegames.com/python_examples/f.php?file=platform_moving.py
-http://programarcadegames.com/python_examples/sprite_sheets/
- 
-Game art from Kenney.nl:
-http://opengameart.org/content/platformer-art-deluxe
- 
-"""
- 
-import pygame
+
+ import pygame
  
 import constants
 import levels
@@ -33,14 +8,13 @@ from Edited_Sprite_Group import Edited_Sprite_Group
 from player import Player
  
 def main():
-    """ Main Program """
     pygame.init()
  
     # Set the height and width of the screen
     size = [constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT]
     screen = pygame.display.set_mode(size)
  
-    pygame.display.set_caption("Platformer with sprite sheets")
+    pygame.display.set_caption("NinjaHero")
  
     # Create the player
     player = Player()
@@ -141,6 +115,7 @@ def main():
         current_level.draw(screen)
         active_sprite_list.draw(screen)
         player.shuriken_list.draw(screen)
+        
  
         # ALL CODE TO DRAW SHOULD GO ABOVE THIS COMMENT
  
