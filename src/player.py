@@ -619,7 +619,7 @@ class Player(pygame.sprite.Sprite):
             self.go_right()
             
     def crouch(self):
-        if self.action == "S" or self.action == "A" or self.action == "W" or self.action == "R" or self.action == "F":
+        if self.action == "S" or self.action == "A" or self.action == "W" or self.action == "R" or self.action == "F" or self.action == "a":
             self.change_x=0
             self.action = "C"
             self.reset_anim()
@@ -831,8 +831,8 @@ class Player(pygame.sprite.Sprite):
                     else:
                         self.draw_image = self.die_frames_l[self.frame]
         elif self.action == "a":
-            if (self.reloj % 4)==0:
-                self.frame = self.reloj // 4
+            if (self.reloj % 3)==0:
+                self.frame = self.reloj // 3
                 if self.frame>len(self.attackshuriken_frames_r)-1:
                     if self.change_x==0:
                         self.action="S"
