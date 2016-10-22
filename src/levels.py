@@ -101,9 +101,9 @@ class Level_01(Level):
                   [platforms.PIEDRA_FLOTANTE_MEDIO, 870, 400],
                   [platforms.PIEDRA_FLOTANTE_DERECHA, 940, 400],
                   #5
-                 # [platforms.PIEDRA_FLOTANTE_IZQUIERDA, 1100, 500],
-                  #[platforms.PIEDRA_FLOTANTE_MEDIO, 1170, 500],
-                  #[platforms.PIEDRA_FLOTANTE_DERECHA, 1240, 500],
+                  [platforms.PIEDRA_FLOTANTE_IZQUIERDA, 1100, 500],
+                  [platforms.PIEDRA_FLOTANTE_MEDIO, 1170, 500],
+                  [platforms.PIEDRA_FLOTANTE_DERECHA, 1240, 500],
                   
                   #6
                   [platforms.STONE_PLATFORM_LEFT, 1120, 280],
