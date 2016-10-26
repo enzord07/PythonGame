@@ -49,3 +49,19 @@
 -enemy.py(NUEVO):
 	-Tiene 1 punto de vida.
 	-Agregado inteligencia para tirar Shurikens.
+
+26/10
+-tiempo.py(NUEVO);
+	-Tiempo del juego, corre de forma descendente.
+	-Utilizado para la interfaz.
+
+-counter.py(NUEVO):
+	-Atributo que contiene un numero que se imprimirá.
+	-Contiene una imagen que se imprimirá a la derecha de número.
+	-Utilizado para la interfaz
+
+-gui.py(NUEVO):
+	-Contiene las clases para dibujar la interfaz de usuario.
+
+-levels.py:
+	-Añadido la interfaz de usuario.

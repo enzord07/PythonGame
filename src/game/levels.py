@@ -4,6 +4,7 @@ import constants
 import platforms
 from enemy import Enemy
 from Edited_Sprite_Group import Edited_Sprite_Group
+import pgui
  
 class Level(object):
     """ This is a generic super-class used to define a level.
@@ -18,6 +19,7 @@ class Level(object):
         # lists as needed for your game.
         self.platform_list = None
         self.enemy_list = None
+        self.gui = pgui.gui.Gui()
  
         # Background image
         self.background = None
@@ -62,6 +64,9 @@ class Level(object):
             contacto = pygame.sprite.spritecollide(self.player, enemy.shuriken_list, True)
             for c in contacto:
                 self.player.hurt()
+                
+        # Actualizar interfaz
+        self.gui.update(self.player)
     
     def draw(self, screen):
         """ Draw everything on this level. """
@@ -77,6 +82,9 @@ class Level(object):
         self.enemy_list.draw(screen)
         for e in self.enemy_list:
             e.shuriken_list.draw(screen)
+        
+        # Dibujar interfaz
+        self.gui.draw(screen)
  
     def shift_world(self, shift_x):
         """ When the user moves left/right and we need to scroll everything: """
