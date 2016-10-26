@@ -50,7 +50,7 @@
 	-Tiene 1 punto de vida.
 	-Agregado inteligencia para tirar Shurikens.
 
-26/10
+25/10
 -tiempo.py(NUEVO);
 	-Tiempo del juego, corre de forma descendente.
 	-Utilizado para la interfaz.
@@ -65,3 +65,26 @@
 
 -levels.py:
 	-Añadido la interfaz de usuario.
+
+26/10
+-gui.py:
+	-Arreglado icono de vida.
+
+-player.py:
+	-Arreglado cuando cae al vacio, ahora la salud se pone a Cero.
+
+-levels.py:
+	-Agregado contador de enemigos derrotados
+	-Corregido reloj de tiempo de muerto de los enemigos(No desaparecian despues de muertos)
+	-Modificado limite del level 1.(Ahora termina cruzando el cartel)
+	-Eliminado clase del nivel 2
+
+-NinjaHero.py:
+	-Añadida funcion para actualizar puntaje en un archivo.
+	-Añadido una variable para el puntaje
+	-Añadido tiempo para salir al menu o puntajes.
+	-Añadido mostrar puntaje al terminar el nivel.
+
+-puntajes.py(NUEVO):
+	-Pantalla que muetra los puntajes.
+	-Carga los puntajes desde un archivo.

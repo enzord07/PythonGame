@@ -7,6 +7,35 @@ from Edited_Sprite_Group import Edited_Sprite_Group
  
 from player import Player
  
+def registrar_puntaje(puntaje):
+    file = open("puntajes/puntajes.txt")
+    puntajes = []
+    for line in file:
+        puntajes.append(int(line))
+    file.close()
+    if puntaje > puntajes[9]:
+        puntajes[9] = puntaje
+        cursor = 9
+        listo = False
+        while cursor !=0 and listo != True:
+            if puntajes[cursor] > puntajes[cursor-1]:
+                aux=puntajes[cursor-1]
+                puntajes[cursor-1]=puntajes[cursor]
+                puntajes[cursor]=aux
+            else:
+                listo = True
+            cursor-=1
+        file = open("puntajes/puntajes.txt", "w")
+        cursor = 0
+        for p in puntajes:
+            file.write(str(p))
+            if cursor!=9:
+                file.write(str("\n"))
+            cursor += 1
+        file.close()
+        
+        
+
 def main(s):
  
     # Set the height and width of the screen
@@ -18,7 +47,6 @@ def main(s):
     # Create all the levels
     level_list = []
     level_list.append(levels.Level_01(player))
-    level_list.append(levels.Level_02(player))
  
     # Set the current level
     current_level_no = 0
@@ -40,6 +68,18 @@ def main(s):
     #usado para detectar si fue presionado la flecha dos veces seguidas
     contl=0
     contr=0
+    
+    # Usado para poner un delay para volver al menu
+    tiemposalir=60*7
+    
+    # Flag si termino el juego
+    terminado = False
+    
+    # Puntaje
+    puntaje = 0
+    imgpuntaje = None
+    fuente = pygame.font.Font(None, 80)
+    
     # -------- Main Program Loop -----------
     while not done:
         contl+=1
@@ -99,18 +139,34 @@ def main(s):
             current_level.shift_world(diff)
  
         # If the player gets to the end of the level, go to the next level
-        current_position = player.rect.x + current_level.world_shift
-        if current_position < current_level.level_limit:
-            player.rect.x = 120
+        current_position = player.rect.x + current_level.world_shift*-1
+        if current_position > current_level.level_limit*-1:
             if current_level_no < len(level_list)-1:
+                player.rect.x = 120
                 current_level_no += 1
                 current_level = level_list[current_level_no]
                 player.level = current_level
+            else:
+                if terminado == False:
+                    terminado = True
+                    puntaje = player.shurikens * 20 + player.health * 30 + current_level.enemies_death * 40 + current_level.gui.clock.segundos_totales * 5
+                    imgpuntaje = fuente.render("Puntaje: " + str(puntaje), True, (0, 0 ,0))
+                    registrar_puntaje(puntaje)
+        # Iniciar contador para volver al menu principal si muere.
+        if player.health == 0:
+            tiemposalir -=1
+            if tiemposalir==0:
+                return "Menu"
  
         # ALL CODE TO DRAW SHOULD GO BELOW THIS COMMENT
         current_level.draw(screen)
         active_sprite_list.draw(screen)
         player.shuriken_list.draw(screen)
+        if terminado:
+            screen.blit(imgpuntaje, (230,80))
+            tiemposalir -=1
+            if tiemposalir == 0:
+                return "Puntajes"
         
  
         # ALL CODE TO DRAW SHOULD GO ABOVE THIS COMMENT

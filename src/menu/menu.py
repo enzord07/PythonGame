@@ -121,9 +121,8 @@ class Menu:
 def comenzar_nuevo_juego():
     pygame.mixer.music.stop()
 #---------------------------------------------------------
-def mostrar_opciones():
-    pygame.mixer.music.play(2) #Cuando voy a opciones la musica vuelve a empezar
-    print " Funcion que muestra otro menu de opciones."
+def mostrar_puntajes():
+    pygame.mixer.music.stop()
 #---------------------------------------------------------
 def salir_del_programa():
     pygame.mixer.music.stop()
@@ -142,7 +141,7 @@ def main(s):
     
     opciones = [
         ("Jugar", comenzar_nuevo_juego),
-        ("Opciones", mostrar_opciones),
+        ("Puntajes", mostrar_puntajes),
         ("Salir", salir_del_programa)
         ]
     screen = s
@@ -157,9 +156,9 @@ def main(s):
                 pygame.mixer.music.stop()
                 return "Salir"
         
-        screen.blit(fondo, (0, 0))
+        screen.blit(fondo, (0,0))
         opc = menu.actualizar()
-        if opc == 0 or opc == 2:
+        if opc != None:
             salir=True
         menu.imprimir(screen)
 
@@ -167,6 +166,8 @@ def main(s):
         pygame.time.delay(10)
     if opc == 0:
         return "Jugar"
+    elif opc== 1:
+        return "Puntajes"
     else:
         return "Salir"
     

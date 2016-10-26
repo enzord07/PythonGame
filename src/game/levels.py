@@ -29,6 +29,7 @@ class Level(object):
         self.level_limit = -1000
         self.platform_list = pygame.sprite.Group()
         self.enemy_list = Edited_Sprite_Group()
+        self.enemies_death = 0
         self.player = player
  
     # Update everythign on this level
@@ -38,8 +39,9 @@ class Level(object):
         self.enemy_list.update()
         for enemy in self.enemy_list:
             enemy.ai(self.player)
-            if enemy.death == True and enemy.reloj_ai==60*4:
+            if enemy.death == True and enemy.reloj==60*4:
                 self.enemy_list.remove(enemy)
+                self.enemies_death += 1
             # El enemigo fue golpeado por la espada?
             contacto = pygame.sprite.spritecollide(enemy, self.player.attack_list, False)
             for c in contacto:
@@ -117,7 +119,7 @@ class Level_01(Level):
  
         self.background = pygame.image.load("game/nivel1.jpg").convert()
         self.background.set_colorkey(constants.WHITE)
-        self.level_limit = -4000
+        self.level_limit = -3830
  
         # Array with type of platform, and x, y location of the platform.
         level =   [
@@ -260,51 +262,3 @@ class Level_01(Level):
         for enemy in enemies:
             self.enemy_list.add(Enemy(self,enemy[0],enemy[1]))
  
-# Create platforms for the level
-class Level_02(Level):
-    """ Definition for level 2. """
- 
-    def __init__(self, player):
-        """ Create level 1. """
- 
-        # Call the parent constructor
-        Level.__init__(self, player)
- 
-        self.background = pygame.image.load("game/background_02.png").convert()
-        self.background.set_colorkey(constants.WHITE)
-        self.level_limit = -1000
- 
-        # Array with type of platform, and x, y location of the platform.
-        level = [ [platforms.STONE_PLATFORM_LEFT, 500, 550],
-                  [platforms.STONE_PLATFORM_MIDDLE, 570, 550],
-                  [platforms.STONE_PLATFORM_RIGHT, 640, 550],
-                  [platforms.PIEDRA_FLOTANTE_IZQUIERDA, 800, 400],
-                  [platforms.PIEDRA_FLOTANTE_MEDIO, 870, 400],
-                  [platforms.PIEDRA_FLOTANTE_DERECHA, 940, 400],
-                  [platforms.PIEDRA_FLOTANTE_IZQUIERDA, 1000, 500],
-                  [platforms.PIEDRA_FLOTANTE_MEDIO, 1070, 500],
-                  [platforms.PIEDRA_FLOTANTE_DERECHA, 1140, 500],
-                  [platforms.STONE_PLATFORM_LEFT, 1120, 280],
-                  [platforms.STONE_PLATFORM_MIDDLE, 1190, 280],
-                  [platforms.STONE_PLATFORM_RIGHT, 1260, 280],
-                  ]
- 
- 
-        # Go through the array above and add platforms
-        for platform in level:
-            block = platforms.Platform(platform[0])
-            block.rect.x = platform[1]
-            block.rect.y = platform[2]
-            block.player = self.player
-            self.platform_list.add(block)
- 
-        # Add a custom moving platform
-        block = platforms.MovingPlatform(platforms.STONE_PLATFORM_MIDDLE)
-        block.rect.x = 1500
-        block.rect.y = 300
-        block.boundary_top = 100
-        block.boundary_bottom = 550
-        block.change_y = -1
-        block.player = self.player
-        block.level = self
-        self.platform_list.add(block)

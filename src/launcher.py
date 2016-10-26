@@ -1,6 +1,7 @@
 import pygame
 import game
 import menu
+import puntajes
 
 def main():
     pygame.init()
@@ -13,5 +14,7 @@ def main():
             opc = menu.menu.main(screen)
         elif opc=="Jugar":
             opc = game.NinjaHero.main(screen)
+        elif opc=="Puntajes":
+            opc = puntajes.puntajes.main(screen)
     pygame.quit()
 main()

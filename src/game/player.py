@@ -558,6 +558,7 @@ class Player(pygame.sprite.Sprite):
             self.change_y = 0
             self.rect.y = constants.SCREEN_HEIGHT + 50
             self.action= "D"
+            self.health = 0
  
     def jump(self):
         """ Called when user hits 'jump' button. """
