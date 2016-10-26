@@ -22,6 +22,9 @@ class Player(pygame.sprite.Sprite):
  
         # -- Atributos
         
+        self.sword_sound = pygame.mixer.Sound("game/EspadaSonido.wav")
+        self.shuriken_sound = pygame.mixer.Sound("game/shuriken.wav")
+        
         # Salud del personaje
         self.health = 5
         
@@ -646,6 +649,7 @@ class Player(pygame.sprite.Sprite):
     
     def attack(self):
         if self.action == "S" or self.action == "W" or self.action== "R":
+            self.sword_sound.play()
             if self.direction=="R":
                 self.attack_list.add(Attack(self.rect.right,self.rect.y))
             else:
@@ -656,6 +660,7 @@ class Player(pygame.sprite.Sprite):
         
     def attackshuriken(self):
         if (self.action == "S" or self.action == "W" or self.action== "R") and self.shurikens != 0:
+            self.shuriken_sound.play()
             self.shurikens -= 1
             if self.direction=="R":
                 self.shuriken_list.add(Shuriken(self.rect.right,self.rect.y + 8, self.direction,self.spritesheet))

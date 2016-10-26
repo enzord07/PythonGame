@@ -122,7 +122,7 @@ def comenzar_nuevo_juego():
     pygame.mixer.music.stop()
 #---------------------------------------------------------
 def mostrar_puntajes():
-    pygame.mixer.music.stop()
+    pass
 #---------------------------------------------------------
 def salir_del_programa():
     pygame.mixer.music.stop()

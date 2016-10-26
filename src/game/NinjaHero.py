@@ -38,6 +38,8 @@ def registrar_puntaje(puntaje):
 
 def main(s):
  
+    pygame.mixer.music.load("game/music.mp3")
+    pygame.mixer.music.play(2)    
     # Set the height and width of the screen
     screen = s
  
