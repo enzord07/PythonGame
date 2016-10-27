@@ -7,32 +7,28 @@ from Edited_Sprite_Group import Edited_Sprite_Group
 import pgui
  
 class Level(object):
-    """ This is a generic super-class used to define a level.
-        Create a child class for each level with level-specific
-        info. """
  
     def __init__(self, player):
-        """ Constructor. Pass in a handle to player. Needed for when moving platforms
-            collide with the player. """
  
-        # Lists of sprites used in all levels. Add or remove
-        # lists as needed for your game.
+        # Listas de sprites del nivel
         self.platform_list = None
         self.enemy_list = None
+        
+        # Interfaz de usuario
         self.gui = pgui.gui.Gui()
  
-        # Background image
+        # Fondo
         self.background = None
  
-        # How far this world has been scrolled left/right
+        # Desplazamiento del nivel
         self.world_shift = 0
         self.level_limit = -1000
+        
         self.platform_list = pygame.sprite.Group()
         self.enemy_list = Edited_Sprite_Group()
         self.enemies_death = 0
         self.player = player
  
-    # Update everythign on this level
     def update(self):
         """ Actualizar todo de este nivel"""
         self.platform_list.update()
@@ -71,15 +67,12 @@ class Level(object):
         self.gui.update(self.player)
     
     def draw(self, screen):
-        """ Draw everything on this level. """
+        """ Dibujar todo en este nivel """
  
-        # Draw the background
-        # We don't shift the background as much as the sprites are shifted
-        # to give a feeling of depth.
         screen.fill(constants.BLUE)
         screen.blit(self.background,(self.world_shift // 3,0))
  
-        # Draw all the sprite lists that we have
+        # Dibujar todos los sprites
         self.platform_list.draw(screen)
         self.enemy_list.draw(screen)
         for e in self.enemy_list:
@@ -89,12 +82,11 @@ class Level(object):
         self.gui.draw(screen)
  
     def shift_world(self, shift_x):
-        """ When the user moves left/right and we need to scroll everything: """
  
-        # Keep track of the shift amount
+        # Desplazar nivel
         self.world_shift += shift_x
  
-        # Go through all the sprite lists and shift
+        # Desplazar sprites
         for platform in self.platform_list:
             platform.rect.x += shift_x
  
@@ -107,21 +99,19 @@ class Level(object):
             shuriken.rect.x += shift_x
         
  
-# Create platforms for the level
+# Crear plataformas para el nivel
 class Level_01(Level):
-    """ Definition for level 1. """
  
     def __init__(self, player):
-        """ Create level 1. """
+        """ Crear nivel 1 """
  
-        # Call the parent constructor
         Level.__init__(self, player)
  
         self.background = pygame.image.load("game/nivel1.jpg").convert()
         self.background.set_colorkey(constants.WHITE)
         self.level_limit = -3830
  
-        # Array with type of platform, and x, y location of the platform.
+        # Array con el tipo de plataforma y sus coordenadas
         level =   [
                   [platforms.PIEDRA_IZQUIERDA, 0, 530],
                   [platforms.PIEDRA_CENTRO, 70, 530],
@@ -228,7 +218,7 @@ class Level_01(Level):
                    [3680,590]                   
                    ]
  
-        # Go through the array above and add platforms
+        # Agregar plataformas en la lista de sprites
         for platform in level:
             block = platforms.Platform(platform[0])
             block.rect.x = platform[1]
@@ -236,7 +226,7 @@ class Level_01(Level):
             block.player = self.player
             self.platform_list.add(block)
  
-        # Add a custom moving platform
+        # Agregar plataformas moviles
         block = platforms.MovingPlatform(platforms.PIEDRITA_FOTANTE_CENTRO)
         block.rect.x = 1350
         block.rect.y = 280
@@ -247,7 +237,6 @@ class Level_01(Level):
         block.level = self
         self.platform_list.add(block)
 
-        # Add a custom moving platform
         block = platforms.MovingPlatform(platforms.PIEDRITA_FOTANTE_CENTRO)
         block.rect.x = 1700
         block.rect.y = 280

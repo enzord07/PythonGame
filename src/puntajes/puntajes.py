@@ -22,7 +22,6 @@ def main(screen):
     pygame.display.flip()
     file.close()
     
-    # -------- Main Program Loop -----------
     while not done:
         for event in pygame.event.get(): 
             if event.type == pygame.QUIT: 
@@ -33,7 +32,6 @@ def main(screen):
  
         
  
-        # Limit to 60 frames per second
         clock.tick(60)
         
     pygame.quit()

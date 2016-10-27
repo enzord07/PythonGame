@@ -7,13 +7,6 @@ class Edited_Sprite_Group(pygame.sprite.Group):
         super(Edited_Sprite_Group, self).__init__()
     
     def draw(self, surface):
-            """draw all sprites onto the surface
-    
-            Group.draw(surface): return None
-    
-            Draws all of the member sprites onto the given surface.
-    
-            """
             sprites = self.sprites()
             surface_blit = surface.blit
             for spr in sprites:

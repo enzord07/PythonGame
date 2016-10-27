@@ -38,19 +38,19 @@ def registrar_puntaje(puntaje):
 
 def main(s):
  
+    # Reproducir musica
     pygame.mixer.music.load("game/music.mp3")
-    pygame.mixer.music.play(2)    
-    # Set the height and width of the screen
+    pygame.mixer.music.play(2)
     screen = s
  
-    # Create the player
+    # Crear al jugador
     player = Player()
  
-    # Create all the levels
+    # Crar los niveles
     level_list = []
     level_list.append(levels.Level_01(player))
  
-    # Set the current level
+    # Seleccionar el nivel actual
     current_level_no = 0
     current_level = level_list[current_level_no]
  
@@ -61,13 +61,13 @@ def main(s):
     player.rect.y = constants.SCREEN_HEIGHT-70 - player.rect.height
     active_sprite_list.add(player)
  
-    #Loop until the user clicks the close button.
+    # Flag para el bucle principal
     done = False
  
-    # Used to manage how fast the screen updates
+    # Usado para controlar los FPS
     clock = pygame.time.Clock()
     
-    #usado para detectar si fue presionado la flecha dos veces seguidas
+    # usado para detectar si fue presionado la flecha dos veces seguidas
     contl=0
     contr=0
     
@@ -82,12 +82,12 @@ def main(s):
     imgpuntaje = None
     fuente = pygame.font.Font(None, 80)
     
-    # -------- Main Program Loop -----------
+    # -------- Bucle principal -----------
     while not done:
         contl+=1
         contr+=1
-        for event in pygame.event.get(): # User did something
-            if event.type == pygame.QUIT: # If user clicked close
+        for event in pygame.event.get(): # El usuario hizo algo
+            if event.type == pygame.QUIT:
                 return "Salir"
  
             if event.type == pygame.KEYDOWN:
@@ -122,25 +122,25 @@ def main(s):
                 if event.key == pygame.K_DOWN:
                     player.go_up()
  
-        # Update the player.
+        # Actualizar el jugador
         active_sprite_list.update()
  
-        # Update items in the level
+        # Actualizar el nivel
         current_level.update()
  
-        # If the player gets near the right side, shift the world left (-x)
+        # Desplazar nivel a la izquierda
         if player.rect.right >= 500:
             diff = player.rect.right - 500
             player.rect.right = 500
             current_level.shift_world(-diff)
   
-        # If the player gets near the left side, shift the world right (+x)
+        # Desplazar nivel a la derecha
         if player.rect.left <= 120:
             diff = 120 - player.rect.left
             player.rect.left = 120
             current_level.shift_world(diff)
  
-        # If the player gets to the end of the level, go to the next level
+        # Si el jugador llego al fin del nivel...
         current_position = player.rect.x + current_level.world_shift*-1
         if current_position > current_level.level_limit*-1:
             if current_level_no < len(level_list)-1:
@@ -154,13 +154,14 @@ def main(s):
                     puntaje = player.shurikens * 20 + player.health * 30 + current_level.enemies_death * 40 + current_level.gui.clock.segundos_totales * 5
                     imgpuntaje = fuente.render("Puntaje: " + str(puntaje), True, (0, 0 ,0))
                     registrar_puntaje(puntaje)
+                    
         # Iniciar contador para volver al menu principal si muere.
         if player.health == 0:
             tiemposalir -=1
             if tiemposalir==0:
                 return "Menu"
  
-        # ALL CODE TO DRAW SHOULD GO BELOW THIS COMMENT
+        # Dibujar
         current_level.draw(screen)
         active_sprite_list.draw(screen)
         player.shuriken_list.draw(screen)
@@ -169,18 +170,13 @@ def main(s):
             tiemposalir -=1
             if tiemposalir == 0:
                 return "Puntajes"
-        
+        # end_Dibujar
  
-        # ALL CODE TO DRAW SHOULD GO ABOVE THIS COMMENT
- 
-        # Limit to 60 frames per second
+        # 60 FPS
         clock.tick(60)
  
-        # Go ahead and update the screen with what we've drawn.
+        # Actualizar lo dibujado
         pygame.display.flip()
- 
-    # Be IDLE friendly. If you forget this line, the program will 'hang'
-    # on exit.
     pygame.quit()
  
 if __name__ == "__main__":

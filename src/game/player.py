@@ -1,7 +1,3 @@
-"""
-This module is used to hold the Player class. The Player represents the user-
-controlled sprite on the screen.
-"""
 import pygame
  
 import constants
@@ -15,12 +11,9 @@ from enemy_activator import Enemy_Activator
  
 class Player(pygame.sprite.Sprite):
  
-    # -- Methods
     def __init__(self):
  
         super(Player, self).__init__()
- 
-        # -- Atributos
         
         self.sword_sound = pygame.mixer.Sound("game/EspadaSonido.wav")
         self.shuriken_sound = pygame.mixer.Sound("game/shuriken.wav")
@@ -31,7 +24,7 @@ class Player(pygame.sprite.Sprite):
         # Cantidad de Shurikens
         self.shurikens = 10
         
-        # Set speed vector of player
+        # Velocidad del personaje
         self.change_x = 0
         self.change_y = 0
  
@@ -463,7 +456,7 @@ class Player(pygame.sprite.Sprite):
         self.reloj = 0
  
     def update(self):
-        """ Move the player. """
+        """ Actualizar al jugador """
         
         self.shuriken_update()
         self.attack_update()
@@ -471,7 +464,7 @@ class Player(pygame.sprite.Sprite):
             e.rect.midbottom = self.rect.midbottom
 
         
-        # Gravity
+        # Gravedad
         self.calc_grav()
         
         # Seleccionar imagen del personaje
@@ -480,7 +473,7 @@ class Player(pygame.sprite.Sprite):
         # Ajustar el tamanio del sprite de acuerdo a la imagen
         self.sprite_config()
         
-        #Centrar la imagen en el sprite
+        # Centrar la imagen en el sprite
         self.draw_rect= self.draw_image.get_rect()
         self.draw_rect.midbottom = self.rect.midbottom
         
@@ -493,19 +486,16 @@ class Player(pygame.sprite.Sprite):
         pos = self.rect.x + self.level.world_shift
 
         
-        # See if we hit anything
+        # Acomodar si impacta con una plataforma
         block_hit_list = pygame.sprite.spritecollide(self, self.level.platform_list, False)
         for block in block_hit_list:
-            # If we are moving right,
-            # set our right side to the left side of the item we hit
             if self.change_x > 0:
                 self.rect.right = block.rect.left
             elif self.change_x < 0:
-                # Otherwise if we are moving left, do the opposite.
                 self.rect.left = block.rect.right
  
  
-        # Move up/down
+        # Mover arriba/abajo
         
         if (self.action == "J")and(self.reloj==5):
             self.change_y = -10
@@ -556,7 +546,7 @@ class Player(pygame.sprite.Sprite):
         else:
             self.change_y += .4
  
-        # See if we are on the ground.
+        # Ver si sale de la pantalla por abajo
         if self.rect.y >= constants.SCREEN_HEIGHT and self.change_y >= 0:
             self.change_y = 0
             self.rect.y = constants.SCREEN_HEIGHT + 50
@@ -564,25 +554,17 @@ class Player(pygame.sprite.Sprite):
             self.health = 0
  
     def jump(self):
-        """ Called when user hits 'jump' button. """
  
-        # move down a bit and see if there is a platform below us.
-        # Move down 2 pixels because it doesn't work well if we only move down 1
-        # when working with a platform moving down.
         self.rect.y += 2
         platform_hit_list = pygame.sprite.spritecollide(self, self.level.platform_list, False)
         self.rect.y -= 2
         
-        # If it is ok to jump, set our speed upwards
         if len(platform_hit_list) > 0 or self.rect.bottom >= constants.SCREEN_HEIGHT:
             if self.action != "F" and self.action != "H" and self.action != "D":
                 self.action= "J"
                 self.reset_anim()
             
- 
-    # Player-controlled movement:
     def go_left(self):
-        """ Called when the user hits the left arrow. """
         self.change_x = -2
         if self.action != "D":
             self.direction = "L"
@@ -603,7 +585,6 @@ class Player(pygame.sprite.Sprite):
             self.go_left()
  
     def go_right(self):
-        """ Called when the user hits the right arrow. """
         self.change_x = 2
         if self.action != "D":
             self.direction = "R"
@@ -630,7 +611,6 @@ class Player(pygame.sprite.Sprite):
             self.reset_anim()
     
     def stop(self):
-        """ Called when the user lets off the keyboard. """
         self.change_x = 0
         if self.action == "W" or self.action == "R" or self.action == "C" or self.action=="A" or self.action=="a":
             self.action = "S"
