@@ -1,0 +1,5 @@
+Z: Ataque con espada
+X: ataque con shuriken
+flecha arriba: saltar
+flecha abajo: agacharse
+flecha derecha/izquierda: caminar(dos veces correr)
